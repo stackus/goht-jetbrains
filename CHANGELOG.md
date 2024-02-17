@@ -3,5 +3,10 @@
 # GoHT JetBrains Changelog
 
 ## [Unreleased]
+
+## [0.1.0] - 2024-02-17
+
 ### Added
-- Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
+- LSP Support
+- Syntax Highlighting
+- Code Completion
