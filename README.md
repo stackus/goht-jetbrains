@@ -1,6 +1,6 @@
-# hamlet-go-jetbrains
+# GoHT for JetBrains
 
-![Build](https://github.com/stackus/hamlet-go-jetbrains/workflows/Build/badge.svg)
+![Build](https://github.com/stackus/goht-jetbrains/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
 
@@ -17,23 +17,27 @@
 - [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
 
 <!-- Plugin description -->
-This Fancy IntelliJ Platform Plugin is going to be your implementation of the brilliant ideas that you have.
+This plugin provides support for [GoHT](https://goht.dev/).
 
-This specific section is a source for the [plugin.xml](/src/main/resources/META-INF/plugin.xml) file which will be extracted by the [Gradle](/build.gradle.kts) during the build process.
+![JetBrains IDE Example](./docs/jetbrains_goht_code.png)
 
-To keep everything working, do not remove `<!-- ... -->` sections. 
+Features:
+- Basic LSP Support
+- Syntax Highlighting
+- Code Completion
+
 <!-- Plugin description end -->
 
 ## Installation
 
 - Using the IDE built-in plugin system:
   
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "hamlet-go-jetbrains"</kbd> >
+  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "goht-jetbrains"</kbd> >
   <kbd>Install</kbd>
   
 - Manually:
 
-  Download the [latest release](https://github.com/stackus/hamlet-go-jetbrains/releases/latest) and install it manually using
+  Download the [latest release](https://github.com/stackus/goht-jetbrains/releases/latest) and install it manually using
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
 

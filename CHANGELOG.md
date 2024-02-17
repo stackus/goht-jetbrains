@@ -1,6 +1,6 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
-# hamlet-go-jetbrains Changelog
+# GoHT JetBrains Changelog
 
 ## [Unreleased]
 ### Added
