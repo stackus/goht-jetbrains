@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.1.2] - 2024-02-21
+
+### Fixed
+- Remove image from Plugin description
+
 ## [0.1.1] - 2024-02-17
 
 ### Added
