@@ -41,12 +41,15 @@ class GohtHighlighter(lexer: GohtHighlightingLexer) : SyntaxHighlighterBase() {
             if (scope.startsWith("punctuation.definition.tag.html")) return arrayOf(DefaultLanguageHighlighterColors.OPERATION_SIGN)
             if (scope.startsWith("punctuation.definition.tag")) return arrayOf(DefaultLanguageHighlighterColors.METADATA)
 
+            if (scope.startsWith("punctuation.definition.begin")) return arrayOf(DefaultLanguageHighlighterColors.PARENTHESES)
+            if (scope.startsWith("punctuation.definition.end")) return arrayOf(DefaultLanguageHighlighterColors.PARENTHESES)
+
             return arrayOf(DefaultLanguageHighlighterColors.OPERATION_SIGN)
         }
 
         // keywords
         if (scope.startsWith("keyword")) {
-            if (scope.startsWith("keyword.package")) return arrayOf(DefaultLanguageHighlighterColors.IDENTIFIER)
+            if (scope.startsWith("keyword.package")) return arrayOf(DefaultLanguageHighlighterColors.KEYWORD)
             if (scope.startsWith("keyword.operator")) return arrayOf(DefaultLanguageHighlighterColors.OPERATION_SIGN)
             return arrayOf(DefaultLanguageHighlighterColors.KEYWORD)
         }
@@ -63,7 +66,7 @@ class GohtHighlighter(lexer: GohtHighlightingLexer) : SyntaxHighlighterBase() {
             if (scope.startsWith("entity.name.function")) return arrayOf(DefaultLanguageHighlighterColors.FUNCTION_DECLARATION)
             if (scope.startsWith("entity.name.tag")) return arrayOf(DefaultLanguageHighlighterColors.MARKUP_TAG)
             if (scope.startsWith("entity.name.import")) return arrayOf(DefaultLanguageHighlighterColors.STRING)
-            if (scope.startsWith("entity.name")) return arrayOf(DefaultLanguageHighlighterColors.KEYWORD)
+            if (scope.startsWith("entity.name.type")) return arrayOf(DefaultLanguageHighlighterColors.CLASS_NAME)
             if (scope.startsWith("entity.other.attribute-name")) return arrayOf(DefaultLanguageHighlighterColors.MARKUP_ATTRIBUTE)
             return arrayOf(DefaultLanguageHighlighterColors.IDENTIFIER)
         }
@@ -71,7 +74,6 @@ class GohtHighlighter(lexer: GohtHighlightingLexer) : SyntaxHighlighterBase() {
         // variables
         if (scope.startsWith("variable")) {
             if (scope.startsWith("variable.parameter")) return arrayOf(DefaultLanguageHighlighterColors.PARAMETER)
-            if (scope.startsWith("variable.other")) return arrayOf(DefaultLanguageHighlighterColors.IDENTIFIER)
             return arrayOf(DefaultLanguageHighlighterColors.LOCAL_VARIABLE)
         }
 
