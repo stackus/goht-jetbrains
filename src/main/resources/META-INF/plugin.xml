@@ -4,7 +4,7 @@
     <name>GoHT</name>
     <vendor url="https://goht.dev">GoHT</vendor>
 
-    <description>Support for the GoHT Programming Language</description>
+    <description>Type-safe HAML, SLIM, and EGO templates for Go.</description>
 
     <idea-version since-build="232.8660.185"/>
 

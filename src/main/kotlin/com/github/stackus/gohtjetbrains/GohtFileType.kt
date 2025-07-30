@@ -6,7 +6,7 @@ import javax.swing.Icon
 object GohtFileType : LanguageFileType(GohtLanguage) {
     override fun getName(): String = "goht"
 
-    override fun getDescription(): String = "HTML UI language in Go and Haml."
+    override fun getDescription(): String = "Type-safe Go HTML templating with support for HAML, SLIM, and EGO formats."
 
     override fun getDefaultExtension(): String = "goht"
 

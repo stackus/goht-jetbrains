@@ -1,0 +1,46 @@
+{
+    parserClass="com.github.stackus.gohtjetbrains.parser.GohtParser"
+
+    extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+    psiClassPrefix="Goht"
+    psiImplClassSuffix="Impl"
+    psiPackage="com.github.stackus.gohtjetbrains.psi"
+    psiImplPackage="com.github.stackus.gohtjetbrains.psi.impl"
+
+    elementTypeHolderClass="com.github.stackus.gohtjetbrains.psi.GohtTypes"
+    elementTypeClass="com.github.stackus.gohtjetbrains.psi.GohtElementType"
+    tokenTypeClass="com.github.stackus.gohtjetbrains.psi.GohtTokenType"
+    psiImplUtilClass="com.github.stackus.gohtjetbrains.psi.GohtPsiImplUtil"
+
+  tokens=[
+      LBRACE='{'
+      RBRACE='}'
+      LPARENTH='('
+      RPARENTH=')'
+      HAML_DECL_START='@haml'
+      GOHT_DECL_START='@goht'
+      SLIM_DECL_START='@slim'
+      EGO_DECL_START='@ego'
+      LINE_COMMENT='LINE_COMMENT'
+      BLOCK_COMMENT='BLOCK_COMMENT'
+  ]
+}
+
+root ::= go_root (root_item)*
+private root_item ::= go_root | haml_decl | slim_decl | ego_decl {pin=1 recoverWhile=recover}
+private recover ::= !(HAML_DECL_START | GOHT_DECL_START | SLIM_DECL_START | EGO_DECL_START | GO_ROOT_FRAGMENT)
+
+go_root ::= GO_ROOT_FRAGMENT
+
+// HAML template declarations
+haml_decl ::= (HAML_DECL_START | GOHT_DECL_START) DECL_GO_TOKEN* LBRACE haml_decl_body RBRACE {pin=1}
+haml_decl_body ::= HAML_FRAGMENT*
+
+// SLIM template declarations
+slim_decl ::= SLIM_DECL_START DECL_GO_TOKEN* LBRACE slim_decl_body RBRACE {pin=1}
+slim_decl_body ::= SLIM_FRAGMENT*
+
+// EGO template declarations
+ego_decl ::= EGO_DECL_START DECL_GO_TOKEN* LBRACE ego_decl_body RBRACE {pin=1}
+ego_decl_body ::= EGO_FRAGMENT*
