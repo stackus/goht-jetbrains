@@ -1,8 +1,7 @@
 package com.github.stackus.gohtjetbrains.highlighter
 
 import com.github.stackus.gohtjetbrains.GohtFileType
-import com.intellij.ide.plugins.PluginManagerCore
-import com.intellij.openapi.extensions.PluginId
+import com.intellij.openapi.application.PathManager
 import com.intellij.util.containers.Interner
 import org.jetbrains.plugins.textmate.language.TextMateLanguageDescriptor
 import org.jetbrains.plugins.textmate.language.syntax.TextMateSyntaxTable
@@ -48,14 +47,13 @@ private fun extract(zip: ZipInputStream, target: File) {
 }
 private fun getBundlePath(): Path {
     try {
-        val plugin = PluginManagerCore.getPlugin(PluginId.getId("com.github.stackus.gohtjetbrains"))
-        val version = plugin?.version ?: "devel"
-        val bundleDirectory = File(plugin?.pluginPath.toString() + "/bundles/" + version)
+        val version = GohtFileType::class.java.`package`.implementationVersion ?: "devel"
+        val bundleParent = File(PathManager.getSystemPath(), "goht-bundles")
+        val bundleDirectory = File(bundleParent, version)
         if (!bundleDirectory.exists()) {
-            deleteFile(bundleDirectory.getParentFile())
+            deleteFile(bundleParent)
             bundleDirectory.mkdirs()
             val resource = GohtFileType::class.java.classLoader.getResourceAsStream("bundle.zip")
-
             extract(ZipInputStream(resource!!), bundleDirectory)
         }
         return Path.of(bundleDirectory.path)
