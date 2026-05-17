@@ -61,7 +61,7 @@ private fun getBundlePath(): Path {
         throw UncheckedIOException(ex)
     }
 }
-fun getTextMateLanguageDescriptor(): TextMateLanguageDescriptor {
+private val cachedDescriptor: TextMateLanguageDescriptor by lazy {
     try {
         val bundle = readTextMateBundle(getBundlePath())
         val syntax = TextMateSyntaxTable()
@@ -70,8 +70,10 @@ fun getTextMateLanguageDescriptor(): TextMateLanguageDescriptor {
         for (g in grammars) {
             syntax.loadSyntax(g.plist.value, interner)
         }
-        return TextMateLanguageDescriptor("source.goht", syntax.getSyntax("source.goht"))
+        TextMateLanguageDescriptor("source.goht", syntax.getSyntax("source.goht"))
     } catch (ex: Exception) {
         throw RuntimeException(ex)
     }
 }
+
+fun getTextMateLanguageDescriptor(): TextMateLanguageDescriptor = cachedDescriptor

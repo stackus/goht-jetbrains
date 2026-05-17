@@ -12,6 +12,14 @@
     <depends>com.intellij.modules.ultimate</depends>
     <depends>org.jetbrains.plugins.textmate</depends>
     <extensions defaultExtensionNs="com.intellij">
+        <notificationGroup id="GoHT" displayType="BALLOON" isLogByDefault="true"/>
+        <applicationService
+            serviceImplementation="com.github.stackus.gohtjetbrains.settings.GohtSettings"/>
+        <applicationConfigurable
+            parentId="tools"
+            instance="com.github.stackus.gohtjetbrains.settings.GohtSettingsConfigurable"
+            id="com.github.stackus.gohtjetbrains.settings.GohtSettingsConfigurable"
+            displayName="GoHT"/>
         <fileType name="goht"
                   language="goht"
                   implementationClass="com.github.stackus.gohtjetbrains.GohtFileType"

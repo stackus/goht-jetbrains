@@ -1,11 +1,12 @@
 package com.github.stackus.gohtjetbrains.lsp
 
 import com.intellij.openapi.diagnostic.Logger
+import com.intellij.util.EnvironmentUtil
 import java.io.File
 
 fun findExecutableInPath(executableName: String): File? {
     val pathSeparator = if (System.getProperty("os.name").startsWith("Windows")) ";" else ":"
-    val paths = System.getenv("PATH").split(pathSeparator)
+    val paths = (EnvironmentUtil.getEnvironmentMap()["PATH"] ?: System.getenv("PATH")).split(pathSeparator)
 
     val logger = Logger.getInstance("GohtLspServerSupportProvider")
 
