@@ -26,6 +26,8 @@
                   fieldName="INSTANCE"/>
         <lang.parserDefinition language="goht"
             implementationClass="com.github.stackus.gohtjetbrains.parser.GohtParserDefinition"/>
+        <lang.ast.factory language="goht"
+            implementationClass="com.github.stackus.gohtjetbrains.psi.GohtAstFactory"/>
         <lang.syntaxHighlighterFactory language="goht"
             implementationClass="com.github.stackus.gohtjetbrains.highlighter.GohtHighlighterFactory"/>
         <editorHighlighterProvider filetype="goht"

@@ -1,3 +1,4 @@
+import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
 
@@ -26,6 +27,7 @@ repositories {
 dependencies {
     intellijPlatform {
         intellijIdeaUltimate(properties("platformVersion").get())
+        testFramework(TestFrameworkType.Platform)
     }
 
     testImplementation(kotlin("test-junit"))
