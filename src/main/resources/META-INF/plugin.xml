@@ -10,7 +10,6 @@
 
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.ultimate</depends>
-    <depends>org.jetbrains.plugins.textmate</depends>
     <extensions defaultExtensionNs="com.intellij">
         <notificationGroup id="GoHT" displayType="BALLOON" isLogByDefault="true"/>
         <applicationService
@@ -25,10 +24,35 @@
                   implementationClass="com.github.stackus.gohtjetbrains.GohtFileType"
                   extensions="goht"
                   fieldName="INSTANCE"/>
-        <editorHighlighterProvider filetype="goht" implementationClass="com.github.stackus.gohtjetbrains.highlighter.GohtEditorHighlighterProvider"/>
+        <lang.parserDefinition language="goht"
+            implementationClass="com.github.stackus.gohtjetbrains.parser.GohtParserDefinition"/>
+        <lang.syntaxHighlighterFactory language="goht"
+            implementationClass="com.github.stackus.gohtjetbrains.highlighter.GohtHighlighterFactory"/>
+        <editorHighlighterProvider filetype="goht"
+            implementationClass="com.github.stackus.gohtjetbrains.highlighter.GohtEditorHighlighterProvider"/>
+        <multiHostInjector implementation="com.github.stackus.gohtjetbrains.injection.GohtLanguageInjector"/>
         <treeStructureProvider implementation="com.github.stackus.gohtjetbrains.treestructure.GohtTreeStructureProvider"/>
         <platform.lsp.serverSupportProvider implementation="com.github.stackus.gohtjetbrains.lsp.GohtLspServerSupportProvider"/>
-        <spellchecker.support language="goht" />
+        <spellchecker.support language="goht"
+            implementationClass="com.intellij.spellchecker.tokenizer.SpellcheckingStrategy"/>
         <spellchecker.bundledDictionaryProvider implementation="com.github.stackus.gohtjetbrains.spellcheck.GohtBundledDictionaryProvider"/>
     </extensions>
+    <actions>
+        <action
+                id="com.github.stackus.gohtjetbrains.actions.GenerateDirAction"
+                class="com.github.stackus.gohtjetbrains.actions.GenerateDirAction"
+                text="Generate GoHT Files"
+                description="Generate Go files from these GoHT templates"
+                icon="/icons/goht.svg">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
+        <action
+            id="com.github.stackus.gohtjetbrains.actions.GenerateFileAction"
+            class="com.github.stackus.gohtjetbrains.actions.GenerateFileAction"
+            text="Generate GoHT File"
+            description="Generate a Go file from this GoHT template"
+            icon="/icons/goht.svg">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
+    </actions>
 </idea-plugin>

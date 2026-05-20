@@ -26,8 +26,10 @@ repositories {
 dependencies {
     intellijPlatform {
         intellijIdeaUltimate(properties("platformVersion").get())
-        bundledPlugin("org.jetbrains.plugins.textmate")
     }
+
+    testImplementation(kotlin("test-junit"))
+    testImplementation("junit:junit:4.13.2")
 }
 
 kotlin {
