@@ -10,7 +10,23 @@ import com.intellij.openapi.components.service
 @Service(Service.Level.APP)
 @State(name = "GohtSettings", storages = [Storage("goht.xml")])
 class GohtSettings : PersistentStateComponent<GohtSettings.State> {
-    data class State(var executablePath: String = "")
+    data class State(
+        var executablePath: String = "",
+        var loggingEnabled: Boolean = false,
+        var logFilePath: String = System.getProperty("user.home") + "/goht-lsp.log",
+        var traceClient: Boolean = false,
+        var traceGoPls: Boolean = false,
+    ) {
+        fun buildLspArgs(): List<String> {
+            if (!loggingEnabled || logFilePath.isBlank()) return emptyList()
+            return buildList {
+                add("--logFile")
+                add(logFilePath)
+                if (traceClient) add("--traceClient")
+                if (traceGoPls) add("--traceGoPls")
+            }
+        }
+    }
 
     private var state = State()
 
