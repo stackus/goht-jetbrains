@@ -85,11 +85,11 @@ class GenerateDirAction : AnAction() {
                 .getNotificationGroup("GoHT")
                 .createNotification(
                     "GoHT Generate Failed",
-                    "Could not find the 'goht' executable. Configure the path in Settings → Tools → GoHT.",
+                    "Could not find the 'goht' executable. Configure the path in Settings → Tools → GoHT LSP.",
                     NotificationType.WARNING
                 )
-                .addAction(NotificationAction.createSimple("Open GoHT Settings") {
-                    ShowSettingsUtil.getInstance().showSettingsDialog(project, "GoHT")
+                .addAction(NotificationAction.createSimple("Open GoHT LSP Settings") {
+                    ShowSettingsUtil.getInstance().showSettingsDialog(project, "GoHT LSP")
                 })
                 .notify(project)
             return

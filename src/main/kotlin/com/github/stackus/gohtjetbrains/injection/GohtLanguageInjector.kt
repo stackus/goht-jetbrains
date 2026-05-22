@@ -65,10 +65,11 @@ class GohtLanguageInjector : MultiHostInjector {
             }
 
             is GohtGoCode -> {
+                val params = findEnclosingFuncParams(context)
                 registrar
                     .startInjecting(lang)
                     .addPlace(
-                        "package __goht_injection\nfunc __goht_fn() {\n",
+                        "package __goht_injection\nfunc __goht_fn${params?.text ?: "()"} {\n",
                         "\n}",
                         context,
                         innerRange(context, 1)
@@ -77,10 +78,11 @@ class GohtLanguageInjector : MultiHostInjector {
             }
 
             is GohtGoExpr -> {
+                val params = findEnclosingFuncParams(context)
                 registrar
                     .startInjecting(lang)
                     .addPlace(
-                        "package __goht_injection\nfunc __goht_fn() { _ = ",
+                        "package __goht_injection\nfunc __goht_fn${params?.text ?: "()"} { _ = ",
                         "}",
                         context,
                         innerRange(context, 1)
@@ -89,10 +91,11 @@ class GohtLanguageInjector : MultiHostInjector {
             }
 
             is GohtInterpContent -> {
+                val params = findEnclosingFuncParams(context)
                 registrar
                     .startInjecting(lang)
                     .addPlace(
-                        "package __goht_injection\nfunc __goht_fn() { _ = ",
+                        "package __goht_injection\nfunc __goht_fn${params?.text ?: "()"} { _ = ",
                         "}",
                         context,
                         TextRange(0, context.textLength)
@@ -101,10 +104,11 @@ class GohtLanguageInjector : MultiHostInjector {
             }
 
             is GohtAttrValue -> {
+                val params = findEnclosingFuncParams(context)
                 registrar
                     .startInjecting(lang)
                     .addPlace(
-                        "package __goht_injection\nfunc __goht_fn() { _ = ",
+                        "package __goht_injection\nfunc __goht_fn${params?.text ?: "()"} { _ = ",
                         "}",
                         context,
                         TextRange(0, context.textLength)
@@ -116,7 +120,7 @@ class GohtLanguageInjector : MultiHostInjector {
                 registrar
                     .startInjecting(lang)
                     .addPlace(
-                        "package __goht_injection\nfunc __goht_fn",
+                        "package __goht_injection\nfunc",
                         " {}",
                         context,
                         TextRange(0, context.textLength)
@@ -128,6 +132,18 @@ class GohtLanguageInjector : MultiHostInjector {
 
     private fun innerRange(element: PsiElement, skipChars: Int): TextRange {
         return TextRange(skipChars, element.textLength)
+    }
+
+    // Walk backwards through flat file siblings to find the nearest preceding FUNC_PARAMS.
+    // The PSI tree is completely flat (all tokens are direct children of GohtFile), so
+    // GohtFuncParams is always a prev-sibling of any expression inside its template block.
+    private fun findEnclosingFuncParams(element: PsiElement): GohtFuncParams? {
+        var node = element.prevSibling
+        while (node != null) {
+            if (node is GohtFuncParams) return node
+            node = node.prevSibling
+        }
+        return null
     }
 
     private fun previousMeaningfulSibling(element: PsiElement): PsiElement? {

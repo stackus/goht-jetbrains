@@ -18,7 +18,7 @@
             parentId="tools"
             instance="com.github.stackus.gohtjetbrains.settings.GohtSettingsConfigurable"
             id="com.github.stackus.gohtjetbrains.settings.GohtSettingsConfigurable"
-            displayName="GoHT"/>
+            displayName="GoHT LSP"/>
         <fileType name="goht"
                   language="goht"
                   implementationClass="com.github.stackus.gohtjetbrains.GohtFileType"
@@ -30,9 +30,8 @@
             implementationClass="com.github.stackus.gohtjetbrains.psi.GohtAstFactory"/>
         <lang.syntaxHighlighterFactory language="goht"
             implementationClass="com.github.stackus.gohtjetbrains.highlighter.GohtHighlighterFactory"/>
-        <editorHighlighterProvider filetype="goht"
-            implementationClass="com.github.stackus.gohtjetbrains.highlighter.GohtEditorHighlighterProvider"/>
         <multiHostInjector implementation="com.github.stackus.gohtjetbrains.injection.GohtLanguageInjector"/>
+        <daemon.highlightInfoFilter implementation="com.github.stackus.gohtjetbrains.injection.GohtHighlightInfoFilter"/>
         <treeStructureProvider implementation="com.github.stackus.gohtjetbrains.treestructure.GohtTreeStructureProvider"/>
         <platform.lsp.serverSupportProvider implementation="com.github.stackus.gohtjetbrains.lsp.GohtLspServerSupportProvider"/>
         <spellchecker.support language="goht"

@@ -26,12 +26,14 @@ object GohtTokenTypes {
 
     // Interpolation #{...}
     val INTERP_START   = IElementType("GOHT_INTERP_START",   GohtLanguage)
+    val INTERP_FORMAT  = IElementType("GOHT_INTERP_FORMAT",  GohtLanguage)
     val INTERP_CONTENT = IElementType("GOHT_INTERP_CONTENT", GohtLanguage)
     val INTERP_END     = IElementType("GOHT_INTERP_END",     GohtLanguage)
 
-    // @render and @children directives inside templates
+    // @render, @children, @slot directives inside templates
     val AT_RENDER   = IElementType("GOHT_AT_RENDER",   GohtLanguage)
     val AT_CHILDREN = IElementType("GOHT_AT_CHILDREN", GohtLanguage)
+    val AT_SLOT     = IElementType("GOHT_AT_SLOT",     GohtLanguage)
 
     // Haml/GoHT-dialect tokens
     val HAML_TAG        = IElementType("GOHT_HAML_TAG",    GohtLanguage)
@@ -44,8 +46,12 @@ object GohtTokenTypes {
     val ATTR_SEP        = IElementType("GOHT_ATTR_SEP",    GohtLanguage)
     val ATTR_VALUE      = IElementType("GOHT_ATTR_VALUE",  GohtLanguage)
     val ATTR_COMMA      = IElementType("GOHT_ATTR_COMMA",  GohtLanguage)
-    val OUTPUT_FLAG     = IElementType("GOHT_OUTPUT_FLAG", GohtLanguage)
-    val SILENT_FLAG     = IElementType("GOHT_SILENT_FLAG", GohtLanguage)
+    val OUTPUT_FLAG          = IElementType("GOHT_OUTPUT_FLAG",          GohtLanguage)
+    val SILENT_FLAG          = IElementType("GOHT_SILENT_FLAG",          GohtLanguage)
+    val UNESCAPE_FLAG        = IElementType("GOHT_UNESCAPE_FLAG",        GohtLanguage)
+    val UNESCAPE_OUTPUT_FLAG = IElementType("GOHT_UNESCAPE_OUTPUT_FLAG", GohtLanguage)
+    val OBJ_REF_OPEN         = IElementType("GOHT_OBJ_REF_OPEN",         GohtLanguage)
+    val OBJ_REF_CLOSE        = IElementType("GOHT_OBJ_REF_CLOSE",        GohtLanguage)
 
     // Slim-dialect tokens
     val SLIM_TAG     = IElementType("GOHT_SLIM_TAG",     GohtLanguage)

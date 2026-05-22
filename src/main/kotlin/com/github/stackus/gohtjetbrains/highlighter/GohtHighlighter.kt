@@ -29,10 +29,11 @@ class GohtHighlighter : SyntaxHighlighterBase() {
         val ATTR_COMMA_KEY     = createTextAttributesKey("GOHT_ATTR_COMMA",     DefaultLanguageHighlighterColors.COMMA)
         val OUTPUT_FLAG_KEY    = createTextAttributesKey("GOHT_OUTPUT_FLAG",    DefaultLanguageHighlighterColors.OPERATION_SIGN)
         val SILENT_FLAG_KEY    = createTextAttributesKey("GOHT_SILENT_FLAG",    DefaultLanguageHighlighterColors.OPERATION_SIGN)
-        val INTERP_BRACE_KEY   = createTextAttributesKey("GOHT_INTERP_BRACE",  DefaultLanguageHighlighterColors.TEMPLATE_LANGUAGE_COLOR)
+        val INTERP_BRACE_KEY   = createTextAttributesKey("GOHT_INTERP_BRACE",  DefaultLanguageHighlighterColors.BRACES)
+        val INTERP_FORMAT_KEY  = createTextAttributesKey("GOHT_INTERP_FORMAT", DefaultLanguageHighlighterColors.KEYWORD)
         val AT_RENDER_KEY      = createTextAttributesKey("GOHT_AT_RENDER",      DefaultLanguageHighlighterColors.KEYWORD)
-        val FILTER_NAME_KEY    = createTextAttributesKey("GOHT_FILTER_NAME",    DefaultLanguageHighlighterColors.KEYWORD)
-        val EGO_TAG_KEY        = createTextAttributesKey("GOHT_EGO_TAG",        DefaultLanguageHighlighterColors.TEMPLATE_LANGUAGE_COLOR)
+        val FILTER_NAME_KEY    = createTextAttributesKey("GOHT_FILTER_NAME",    DefaultLanguageHighlighterColors.LABEL)
+        val EGO_TAG_KEY        = createTextAttributesKey("GOHT_EGO_TAG",        DefaultLanguageHighlighterColors.MARKUP_TAG)
         val COMMENT_KEY        = createTextAttributesKey("GOHT_COMMENT",        DefaultLanguageHighlighterColors.LINE_COMMENT)
         val TEXT_KEY           = createTextAttributesKey("GOHT_TEXT",           DefaultLanguageHighlighterColors.STRING)
 
@@ -53,11 +54,17 @@ class GohtHighlighter : SyntaxHighlighterBase() {
             GohtTokenTypes.ATTR_SEP         to arrayOf(ATTR_SEP_KEY),
             GohtTokenTypes.ATTR_COMMA       to arrayOf(ATTR_COMMA_KEY),
             GohtTokenTypes.INTERP_START     to arrayOf(INTERP_BRACE_KEY),
+            GohtTokenTypes.INTERP_FORMAT    to arrayOf(INTERP_FORMAT_KEY),
             GohtTokenTypes.INTERP_END       to arrayOf(INTERP_BRACE_KEY),
-            GohtTokenTypes.OUTPUT_FLAG      to arrayOf(OUTPUT_FLAG_KEY),
-            GohtTokenTypes.SILENT_FLAG      to arrayOf(SILENT_FLAG_KEY),
+            GohtTokenTypes.OUTPUT_FLAG           to arrayOf(OUTPUT_FLAG_KEY),
+            GohtTokenTypes.SILENT_FLAG           to arrayOf(SILENT_FLAG_KEY),
+            GohtTokenTypes.UNESCAPE_FLAG         to arrayOf(OUTPUT_FLAG_KEY),
+            GohtTokenTypes.UNESCAPE_OUTPUT_FLAG  to arrayOf(OUTPUT_FLAG_KEY),
+            GohtTokenTypes.OBJ_REF_OPEN          to arrayOf(ATTR_OPEN_KEY),
+            GohtTokenTypes.OBJ_REF_CLOSE         to arrayOf(ATTR_CLOSE_KEY),
             GohtTokenTypes.AT_RENDER        to arrayOf(AT_RENDER_KEY),
             GohtTokenTypes.AT_CHILDREN      to arrayOf(AT_RENDER_KEY),
+            GohtTokenTypes.AT_SLOT          to arrayOf(AT_RENDER_KEY),
             GohtTokenTypes.FILTER_NAME      to arrayOf(FILTER_NAME_KEY),
             GohtTokenTypes.EGO_OPEN_CODE    to arrayOf(EGO_TAG_KEY),
             GohtTokenTypes.EGO_OPEN_OUTPUT  to arrayOf(EGO_TAG_KEY),
