@@ -30,10 +30,13 @@ object GohtTokenTypes {
     val INTERP_CONTENT = IElementType("GOHT_INTERP_CONTENT", GohtLanguage)
     val INTERP_END     = IElementType("GOHT_INTERP_END",     GohtLanguage)
 
-    // @render, @children, @slot directives inside templates
+    // @render, @children, @slot, @ifslot, @noslot, @eachslot directives inside templates
     val AT_RENDER   = IElementType("GOHT_AT_RENDER",   GohtLanguage)
     val AT_CHILDREN = IElementType("GOHT_AT_CHILDREN", GohtLanguage)
     val AT_SLOT     = IElementType("GOHT_AT_SLOT",     GohtLanguage)
+    val AT_IFSLOT   = IElementType("GOHT_AT_IFSLOT",   GohtLanguage)
+    val AT_NOSLOT   = IElementType("GOHT_AT_NOSLOT",   GohtLanguage)
+    val AT_EACHSLOT = IElementType("GOHT_AT_EACHSLOT", GohtLanguage)
 
     // Haml/GoHT-dialect tokens
     val HAML_TAG        = IElementType("GOHT_HAML_TAG",    GohtLanguage)
@@ -56,6 +59,7 @@ object GohtTokenTypes {
     // Slim-dialect tokens
     val SLIM_TAG     = IElementType("GOHT_SLIM_TAG",     GohtLanguage)
     val SLIM_DOCTYPE = IElementType("GOHT_SLIM_DOCTYPE", GohtLanguage)
+    val SLIM_INLINE_SEP = IElementType("GOHT_SLIM_INLINE_SEP", GohtLanguage)
 
     // Ego-dialect tokens (ERB-style)
     val EGO_OPEN_CODE   = IElementType("GOHT_EGO_OPEN_CODE",   GohtLanguage)

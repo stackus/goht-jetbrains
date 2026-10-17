@@ -525,6 +525,146 @@ class GohtLexerTest {
         assertHasToken(tokens, GohtTokenTypes.ATTR_CLOSE, ")")
     }
 
+    @Test
+    fun `haml and slim slot directives are tokenized`() {
+        for (directive in listOf("@haml", "@slim")) {
+            val tokens = lex(
+                """
+                $directive H() {
+                	= @ifslot content
+                		= @eachslot item in content
+                			= @render item
+                	= @noslot content
+                		p Empty
+                }
+                """.trimIndent()
+            )
+            assertHasToken(tokens, GohtTokenTypes.AT_IFSLOT, " @ifslot")
+            assertHasToken(tokens, GohtTokenTypes.AT_EACHSLOT, " @eachslot")
+            assertHasToken(tokens, GohtTokenTypes.TEXT, " item in content")
+            assertHasToken(tokens, GohtTokenTypes.AT_NOSLOT, " @noslot")
+            assertHasToken(tokens, GohtTokenTypes.TEXT, " content")
+        }
+    }
+
+    @Test
+    fun `ego slot directives are tokenized`() {
+        val tokens = lex(
+            """
+            @ego E() {
+            	<%@ifslot content { %>
+            		<%@eachslot item in content { %>
+            			<%@render item %>
+            		<% } %>
+            	<% } %>
+            	<%@noslot content %>
+            }
+            """.trimIndent()
+        )
+        assertHasToken(tokens, GohtTokenTypes.AT_IFSLOT, "ifslot")
+        assertHasToken(tokens, GohtTokenTypes.AT_EACHSLOT, "eachslot")
+        assertHasToken(tokens, GohtTokenTypes.AT_NOSLOT, "noslot")
+        assertHasToken(tokens, GohtTokenTypes.GO_CODE, " item in content { ")
+        assertTrue(tokens.none { it.type == GohtTokenTypes.BAD_CHARACTER })
+    }
+
+    @Test
+    fun `tailwind class shorthand is tokenized`() {
+        val classes = listOf(
+            ".hover:bg-red-500", ".w-[12px]", ".bg-[url('/images/hero.jpg')]",
+            ".[&>p]:underline", ".text-red/80", ".bg-red/[0.5]",
+        )
+        for ((source, tag) in listOf(
+            "@haml H() {\n\t%div${classes.joinToString("")} Tailwind\n}" to GohtTokenTypes.HAML_TAG,
+            "@slim S() {\n\tdiv${classes.joinToString("")} Tailwind\n}" to GohtTokenTypes.SLIM_TAG,
+        )) {
+            val tokens = lex(source)
+            assertTrue(tokens.any { it.type == tag })
+            for (cls in classes) assertHasToken(tokens, GohtTokenTypes.CLASS_SHORTHAND, cls)
+            assertHasToken(tokens, GohtTokenTypes.TEXT, " Tailwind")
+        }
+    }
+
+    @Test
+    fun `slim inline tag after class is not a filter`() {
+        val tokens = lex("@slim S() {\n\tdiv.foo: span Inline tag\n\tp After\n}")
+        assertHasToken(tokens, GohtTokenTypes.SLIM_TAG, "div")
+        assertHasToken(tokens, GohtTokenTypes.CLASS_SHORTHAND, ".foo")
+        assertHasToken(tokens, GohtTokenTypes.SLIM_INLINE_SEP, ": ")
+        assertHasToken(tokens, GohtTokenTypes.SLIM_TAG, "span")
+        assertHasToken(tokens, GohtTokenTypes.SLIM_TAG, "p")
+        assertTrue(tokens.none { it.type == GohtTokenTypes.FILTER_NAME })
+    }
+
+    @Test
+    fun `ruby style framework attribute names are tokenized`() {
+        val tokens = lex(
+            "@haml H() {\n\t%button{@click: \"act\", :class: \"active\", x-on:click: \"toggle\", data-[state]: \"open\"} Ruby\n}"
+        )
+        for (name in listOf("@click", ":class", "x-on:click", "data-[state]")) {
+            assertHasToken(tokens, GohtTokenTypes.ATTR_NAME, name)
+        }
+        assertEquals(4, tokens.count { it.type == GohtTokenTypes.ATTR_SEP && it.text == ":" })
+        assertHasToken(tokens, GohtTokenTypes.ATTR_VALUE, "\"open\"")
+    }
+
+    @Test
+    fun `html style framework attribute names are tokenized`() {
+        val tokens = lex(
+            "@slim S() {\n\tbutton(@click=\"act\" :class=\"active\" x-on:click=\"toggle\" data-[state]=\"open\" @keyup.enter=\"go\") HTML\n}"
+        )
+        for (name in listOf("@click", ":class", "x-on:click", "data-[state]", "@keyup.enter")) {
+            assertHasToken(tokens, GohtTokenTypes.ATTR_NAME, name)
+        }
+        assertHasToken(tokens, GohtTokenTypes.ATTR_VALUE, "\"open\"")
+        assertHasToken(tokens, GohtTokenTypes.ATTR_CLOSE, ")")
+    }
+
+    @Test
+    fun `html style boolean and conditional attributes are tokenized`() {
+        val tokens = lex("@haml H() {\n\t%button(disabled class=\"x\")\n\t%button(disabled? #{true} class=\"on\")\n}")
+        assertEquals(2, tokens.count { it.type == GohtTokenTypes.ATTR_NAME && it.text == "disabled" })
+        assertEquals(2, tokens.count { it.type == GohtTokenTypes.ATTR_NAME && it.text == "class" })
+        assertHasToken(tokens, GohtTokenTypes.ATTR_SEP, "?")
+        assertHasToken(tokens, GohtTokenTypes.INTERP_CONTENT, "true")
+        assertHasToken(tokens, GohtTokenTypes.ATTR_VALUE, "\"x\"")
+    }
+
+    @Test
+    fun `ruby style conditional attribute is tokenized`() {
+        val tokens = lex("@haml H() {\n\t.boolean{disabled? #{condition}} Content\n}")
+        assertHasToken(tokens, GohtTokenTypes.ATTR_NAME, "disabled")
+        assertHasToken(tokens, GohtTokenTypes.ATTR_SEP, "?")
+        assertHasToken(tokens, GohtTokenTypes.INTERP_CONTENT, "condition")
+    }
+
+    @Test
+    fun `escaped interpolation stays text`() {
+        val tokens = lex("@haml H() {\n\t%p Price \\#{x} now\n}")
+        assertHasToken(tokens, GohtTokenTypes.TEXT, " Price \\#{x} now")
+        assertTrue(tokens.none { it.type == GohtTokenTypes.INTERP_START })
+    }
+
+    @Test
+    fun `comments cover their nested lines`() {
+        val slim = lex("@slim S() {\n\t/! Comment\n\t\t%p nested\n\tp After\n}")
+        assertHasToken(slim, GohtTokenTypes.COMMENT, "/! Comment\n\t\t%p nested")
+        assertHasToken(slim, GohtTokenTypes.SLIM_TAG, "p")
+
+        val haml = lex("@haml H() {\n\t-# Comment\n\t\t%p nested\n\n\t%p After\n}")
+        assertHasToken(haml, GohtTokenTypes.COMMENT, "-# Comment\n\t\t%p nested\n")
+        assertEquals(listOf("%p"), haml.filter { it.type == GohtTokenTypes.HAML_TAG }.map { it.text })
+        assertEquals(1, haml.count { it.type == GohtTokenTypes.BLOCK_CLOSE })
+    }
+
+    @Test
+    fun `go filter body is filter content`() {
+        val tokens = lex("@slim S() {\n\t:go\n\t\tname := \"x\"\n\tp= name\n}")
+        assertHasToken(tokens, GohtTokenTypes.FILTER_NAME, ":go")
+        assertTrue(tokens.any { it.type == GohtTokenTypes.FILTER_CONTENT && it.text.contains("name := \"x\"") })
+        assertHasToken(tokens, GohtTokenTypes.SLIM_TAG, "p")
+    }
+
     private fun lex(source: String): List<Token> {
         val lexer = GohtLexer()
         lexer.start(source, 0, source.length, 0)

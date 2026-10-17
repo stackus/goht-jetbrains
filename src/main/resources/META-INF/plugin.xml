@@ -6,12 +6,6 @@
 
     <description>Type-safe HAML, SLIM, and EGO templates for Go.</description>
 
-    <change-notes>
-        <p>Initial release with new lexer. No longer depending on a TextMate grammar</p>
-        <p>Added "Generate GoHT File(s)" action to context menu</p>
-        <p>Added "GoHT LSP" setting pane under Settings -> Tools</p>
-    </change-notes>
-
     <idea-version since-build="251"/>
 
     <depends>com.intellij.modules.platform</depends>

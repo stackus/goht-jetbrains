@@ -41,6 +41,20 @@ class GohtLanguageInjector : MultiHostInjector {
             is GohtFilterContent -> {
                 val filterNameElement = previousMeaningfulSibling(context) ?: return
                 val filterName = filterNameElement.text.trimStart(':').lowercase()
+                if (filterName == "go") {
+                    val lang = goLanguage ?: return
+                    val params = findEnclosingFuncParams(context)
+                    registrar
+                        .startInjecting(lang)
+                        .addPlace(
+                            "package __goht_injection\nfunc __goht_fn${params?.text ?: "()"} {\n",
+                            "\n}",
+                            context,
+                            TextRange(0, context.textLength)
+                        )
+                        .doneInjecting()
+                    return
+                }
                 val lang = when (filterName) {
                     "css"              -> cssLanguage
                     "javascript", "js" -> jsLanguage
