@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.8] - 2026-10-17
+
 ### Added
 
 - "Generate GoHT File(s)" action in the project view context menu.
@@ -28,6 +30,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Syntax highlighting now uses a native lexer for Haml, Slim, and EGO templates
 	and no longer depends on a TextMate grammar.
+
+## [0.1.7] - 2026-05-22
+
+### Added
+- Initial release with new lexer; No longer depending on a TextMate grammar
+- "Generate GoHT File(s)" action to context menu
+- "GoHT LSP" setting pane under Settings -> Tools
 
 ## [0.1.2] - 2024-02-21
 
